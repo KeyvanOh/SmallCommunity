@@ -20,6 +20,9 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
+
 public class EventHandlersFx2 extends Application {
     @Override
     public void start(Stage stage) {
@@ -44,7 +47,8 @@ public class EventHandlersFx2 extends Application {
         text.setY(50);
         
         PhongMaterial material = new PhongMaterial();
-        material.setDiffuseColor(Color.BLUE);
+        //material.setDiffuseColor(Color.BLUE);
+        material.setDiffuseColor(Color.GREY);
         
         box.setMaterial(material);
         
@@ -71,18 +75,51 @@ public class EventHandlersFx2 extends Application {
                 //System.out.println(e.getCode());
                 System.out.println(e.getCharacter());
                 //System.out.println(e.getText());
+                //System.out.println(textField);
+                //System.out.println(textField.getText());
             }
         };
         textField.addEventHandler(KeyEvent.KEY_TYPED, eventHandlerTextField);
         
-        EventHandler<javafx.scene.input.MouseEvent> eventHandlerBox =
-            new EventHandler<javafx.scene.input.MouseEvent>()
-        {
+        //EventHandler<javafx.scene.input.MouseEvent> eventHandlerBox =
+        //    new EventHandler<javafx.scene.input.MouseEvent>()
+        EventHandler<MouseEvent> eventHandlerBox = new EventHandler<MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent e) {
                 rotateTransition.stop();
                 //System.out.println(e);
-                System.out.println(e.getButton());
+                
+                
+                
+                //System.out.println(e.getButton());
+                
+                MouseButton mouseButton = e.getButton();
+                System.out.println(mouseButton);
+                
+                
+                
+                switch(mouseButton) {
+                    case MouseButton.PRIMARY: {
+                        material.setDiffuseColor(Color.RED);
+                        break;
+                    }
+                    case MouseButton.SECONDARY: {
+                        material.setDiffuseColor(Color.BLUE);
+                        break;
+                    }
+                    case MouseButton.MIDDLE: {
+                        material.setDiffuseColor(Color.WHITE);
+                        break;
+                    }
+                    default: {
+                    }
+                };
+                
+                
+                
+                
+                
+                System.out.println(textField.getText());
             }
         };
         box.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, eventHandlerBox);
