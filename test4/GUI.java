@@ -136,7 +136,13 @@ public class GUI extends Application {
         textField.setLayoutY(100);
         
         Eventhandler<KeyEvent> eventHandlerTextField = new EventHandler<KeyEvent>() {
-            
+            @Override
+            public void handle(KeyEvent e) {
+                if (e.getCode() == KeyCode.ENTER) {
+                    Mut.chat = textField.getText();
+                    
+                };
+            }
         };
         
         
