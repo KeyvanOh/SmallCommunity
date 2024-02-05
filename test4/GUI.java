@@ -22,6 +22,20 @@ class Const {
 }
 class Mut {
 }
+class Print {
+    private static StringBuilder print = new StringBuilder();
+    private static void reset() {
+        print.setLength(0);
+    }
+    static void printAndReset() {
+        System.out.print(print);
+        reset();
+    }
+    static <T> void print(T t) {
+        print.append(t);
+        printAndReset();
+    }
+}
 class ChatClient {
     static void client() {
         Socket socket = null;
@@ -29,7 +43,7 @@ class ChatClient {
             socket = new Socket("localhost", 7777);
             System.out.println("서버에 연결되었습니다.");
             
-            Sender2 sender = new Sender(socket);
+            Sender2 sender = new Sender2(socket);
             Receiver receiver = new Receiver(socket);
             
             sender.start();
@@ -72,6 +86,30 @@ class Sender2 extends Thread {
         };
     }
 }
+class Receiver extends Thread {
+    Socket socket;
+    DataInputStream in;
+    public Receiver(Socket socket) {
+        this.socket = socket;
+        try {
+            in = new DataInputStream(socket.getInputStream());
+        } catch(Exception e) {
+            e.printStackTrace();
+        };
+    }
+    @Override
+    public void run() {
+        while(in != null) {
+            try {
+                System.out.println(in.readUTF());
+            } catch(Exception e) {
+                e.printStackTrace();
+                Print.print("Receiver err\n");
+                break;
+            };
+        };
+    }
+}
 class Fn {
     static void writeText(String chat) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(Const.FILE_NAME_CHAT))) {
@@ -82,7 +120,7 @@ class Fn {
     }
     static String readText() {
         String chat = "";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Connst.FILE_NAME_CHAT))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Const.FILE_NAME_CHAT))) {
             while(bufferedReader.ready()) {
                 String temp = bufferedReader.readLine();
                 chat = chat.concat(temp);
@@ -135,19 +173,65 @@ public class GUI extends Application {
         textField.setLayoutX(50);
         textField.setLayoutY(100);
         
-        Eventhandler<KeyEvent> eventHandlerTextField = new EventHandler<KeyEvent>() {
+        EventHandler<KeyEvent> eventHandlerTextField = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
                 if (e.getCode() == KeyCode.ENTER) {
-                    Mut.chat = textField.getText();
-                    
+                    //Mut.chat = textField.getText();
+                    String chat = textField.getText();
+                    System.out.println(chat);
+                    Fn.writeText(chat);
+                    textField.clear();
                 };
             }
         };
+        textField.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerTextField);
         
+        EventHandler<MouseEvent> eventHandlerRectangle = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                MouseButton mouseButton = e.getButton();
+                System.out.println(mouseButton);
+                
+                switch(mouseButton) {
+                    case MouseButton.PRIMARY: {
+                        rectangle.setFill(Color.rgb(255, 0, 0, 0.5));
+                        break;
+                    }
+                    case MouseButton.SECONDARY: {
+                        rectangle.setFill(Color.rgb(0, 0, 255, 0.5));
+                        break;
+                    }
+                    case MouseButton.MIDDLE: {
+                        rectangle.setFill(Color.rgb(0, 255, 0, 0.5));
+                        break;
+                    }
+                    default: {
+                    }
+                };
+            }
+        };
+        rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerRectangle);
         
+        EventHandler<ScrollEvent> eventHandlerRectangle2 = new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent e) {
+                System.out.println(e.getDeltaY());
+            }
+        };
+        rectangle.addEventHandler(ScrollEvent.SCROLL, eventHandlerRectangle2);
         
+        Group root = new Group();
+        root.getChildren().add(imageView);
+        root.getChildren().add(textField);
+        root.getChildren().add(text);
+        root.getChildren().add(rectangle);
         
+        Scene scene = new Scene(root, width, height);
+        
+        stage.setResizable(false);
+        stage.setTitle("Test4");
+        stage.setScene(scene);
+        stage.show();
     }
-    
 }
