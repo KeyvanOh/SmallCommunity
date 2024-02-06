@@ -19,6 +19,7 @@ import javafx.scene.image.*;
 
 class Const {
     static final String FILE_NAME_CHAT = "chat.txt";
+    static final String FILE_NAME_RECEIVE = "receive.txt";
 }
 class Mut {
 }
@@ -44,7 +45,8 @@ class ChatClient {
             System.out.println("서버에 연결되었습니다.");
             
             Sender2 sender = new Sender2(socket);
-            Receiver receiver = new Receiver(socket);
+            //Receiver receiver = new Receiver(socket);
+            Receiver2 receiver = new Receiver2(socket);
             
             sender.start();
             receiver.start();
@@ -71,12 +73,14 @@ class Sender2 extends Thread {
     public void run() {
         while(out != null) {
             try {
-                String chat = Fn.readText();
+                //String chat = Fn.readText();
+                String chat = Fn.readText(Const.FILE_NAME_CHAT);
                 if(chat.length() == 0) {
                     continue;
                 } else {
                     out.writeUTF(name.concat(chat));
-                    Fn.writeText("");
+                    //Fn.writeText("");
+                    Fn.writeText("", Const.FILE_NAME_CHAT);
                 };
             } catch(Exception e) {
                 e.printStackTrace();
@@ -86,10 +90,12 @@ class Sender2 extends Thread {
         };
     }
 }
-class Receiver extends Thread {
+//class Receiver extends Thread {
+class Receiver2 extends Thread {
     Socket socket;
     DataInputStream in;
-    public Receiver(Socket socket) {
+    //public Receiver(Socket socket) {
+    public Receiver2(Socket socket) {
         this.socket = socket;
         try {
             in = new DataInputStream(socket.getInputStream());
@@ -102,6 +108,7 @@ class Receiver extends Thread {
         while(in != null) {
             try {
                 System.out.println(in.readUTF());
+                Fn.writeText(in.readUTF(), Const.FILE_NAME_RECEIVE);
             } catch(Exception e) {
                 e.printStackTrace();
                 Print.print("Receiver err\n");
@@ -111,16 +118,20 @@ class Receiver extends Thread {
     }
 }
 class Fn {
-    static void writeText(String chat) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(Const.FILE_NAME_CHAT))) {
+    //static void writeText(String chat) {
+    static void writeText(String chat, String path) {
+        //try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(Const.FILE_NAME_CHAT))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
             bufferedWriter.write(chat);
         } catch(IOException e) {
             e.printStackTrace();
         };
     }
-    static String readText() {
+    //static String readText() {
+    static String readText(String path) {
         String chat = "";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Const.FILE_NAME_CHAT))) {
+        //try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Const.FILE_NAME_CHAT))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             while(bufferedReader.ready()) {
                 String temp = bufferedReader.readLine();
                 chat = chat.concat(temp);
@@ -138,13 +149,20 @@ public class GUI extends Application {
         DataOutputStream out;
         String name;
         
-        Font font = Font.loadFont("file.DunGeunMo.ttf", 15);
+        //Font font = Font.loadFont("file.DunGeunMo.ttf", 15);
+        //Font font = Font.loadFont("file.DunGeunMo.ttf", 30);
+        Font font = Font.loadFont("file:DungGeunMo.ttf", 30);
         
-        Text text = new Text("Typing or Clicking");
+        //Text text = new Text("Typing or Clicking");
+        Text text = new Text();
+        text.setText("sgegsgesgs");
         text.setFont(font);
         text.setFill(Color.rgb(255, 0, 0, 1));
-        text.setX(20);
-        text.setY(50);
+        //text.setX(20);
+        //text.setY(50);
+        text.setX(0);
+        //text.setY(30);
+        text.setY(100);
         
         Image image = new Image(new FileInputStream("test.png"));
         int width = (int)image.getWidth();
@@ -180,7 +198,8 @@ public class GUI extends Application {
                     //Mut.chat = textField.getText();
                     String chat = textField.getText();
                     System.out.println(chat);
-                    Fn.writeText(chat);
+                    //Fn.writeText(chat);
+                    Fn.writeText(chat, Const.FILE_NAME_CHAT);
                     textField.clear();
                 };
             }
@@ -217,9 +236,20 @@ public class GUI extends Application {
             @Override
             public void handle(ScrollEvent e) {
                 System.out.println(e.getDeltaY());
+                //text.setText(Fn.readText(Const.FILE_NAME_RECEIVE));
             }
         };
         rectangle.addEventHandler(ScrollEvent.SCROLL, eventHandlerRectangle2);
+        
+        EventHandler<MouseEvent> eventHandlerImageView = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                //System.out.println(e);
+                text.setText(Fn.readText(Const.FILE_NAME_RECEIVE));
+            }
+        };
+        imageView.addEventHandler(MouseEvent.MOUSE_MOVED, eventHandlerImageView);
+        
         
         Group root = new Group();
         root.getChildren().add(imageView);
