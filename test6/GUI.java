@@ -1,11 +1,11 @@
-//javac --module-path javafx-sdk-21.0.1\lib --add-modules javafx.controls,javafx.fxml test6\Main.java
+//
+//code3
+//
 package test6;
 
 import java.io.*;
 import java.net.*;
 
-//import javafx.application.Application;
-//import javafx.application.Platform;
 import javafx.application.*;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -37,7 +37,6 @@ class Print {
         reset();
     }
     static <T> void print(T t) {
-        //print.append(t);
         append(t);
         printAndReset();
     }
@@ -78,8 +77,6 @@ class Sender2 extends Thread {
         try {
             out = new DataOutputStream(socket.getOutputStream());
             
-            //name = "[".concat(String.valueOf(socket.getInetAddress())).concat(String.valueOf(socket.getPort())).concat("]");
-            
             Print.append("[");
             Print.append(socket.getInetAddress());
             Print.append(socket.getPort());
@@ -102,12 +99,9 @@ class Sender2 extends Thread {
                     chatScreen = chatScreen.concat(chat);
                     Fn.writeText(chatScreen, Const.FILE_NAME_RECEIVE);
                     
-                    
                     Print.append(chat);
                     
                     out.writeUTF(name.concat(chat));
-                    //out.writeUTF(Print.getString());
-                    
                     
                     Fn.writeText("", Const.FILE_NAME_CHAT);
                 };
@@ -182,14 +176,11 @@ public class GUI extends Application {
         int width = (int)image.getWidth();
         int height = (int)image.getHeight();
         
-        //Font font = Font.loadFont("file:DungGeunMo.ttf", 30);
         Font font = Font.loadFont("file:DungGeunMo.ttf", 16);
         
         Text text = new Text();
         text.setText("text initialized");
         text.setFont(font);
-        //text.setFill(Color.rgb(255, 0, 0, 1.));
-        //text.setFill(Color.rgb(255, 255, 255, 1.));
         text.setFill(Mut.color);
         text.setX(0);
         text.setY(Mut.textY);
@@ -201,10 +192,7 @@ public class GUI extends Application {
         
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
-                //Color color = pixelReader.getColor(x, y);
                 Color c = pixelReader.getColor(x, y);
-                
-                //writer.setColor(x, y, color);
                 writer.setColor(x, y, c);
             };
         };
@@ -214,17 +202,12 @@ public class GUI extends Application {
         rectangle.setY(7);
         rectangle.setWidth(width);
         rectangle.setHeight(30);
-        //rectangle.setFill(Color.rgb(0, 0, 0, 0.5));
         rectangle.setFill(Mut.color);
         rectangle.setOpacity(0.5);
         
         TextField textField = new TextField();
-        
         textField.setLayoutX(0);
         textField.setLayoutY(height - 30);
-        //textField.setX(500);
-        //textField.setSize(500, 100);
-        //textField.setPrefWidth(500);
         textField.setPrefWidth(width);
         
         EventHandler<KeyEvent> eventHandlerTextField = new EventHandler<KeyEvent>() {
@@ -235,7 +218,6 @@ public class GUI extends Application {
                 
                 KeyCode keyCode = e.getCode();
                 
-                //if(e.getCode() == KeyCode.ENTER) {
                 if(keyCode == KeyCode.ENTER) {
                     String chat = textField.getText();
                     System.out.println(chat);
@@ -243,7 +225,6 @@ public class GUI extends Application {
                     Fn.writeText(chat, Const.FILE_NAME_CHAT);
                     
                     textField.clear();
-                //} else if(keyCode == KeyCode.ESC) {
                 } else if(keyCode == KeyCode.ESCAPE) {
                     Platform.exit();
                     System.exit(0);
@@ -256,43 +237,22 @@ public class GUI extends Application {
             @Override
             public void handle(MouseEvent e) {
                 MouseButton mouseButton = e.getButton();
-                //System.out.println(mouseButton);
-                //Color color = new Color();
-                //Color color;
-                //Color color = Color.rgb(255, 255, 255);
-                //Mut.color = Color.rgb(255, 255, 255);
                 switch(mouseButton) {
                     case MouseButton.PRIMARY: {
-                        //color = Color.rgb(255, 255, 255);
-                        //color = Color.rgb(255, 0, 0);
                         Mut.color = Color.rgb(255, 0, 0);
-                        //color = color.setOpacity(0.5);
-                        //color = color.setOpacity(0.5);
-                        //rectangle.setFill(Color.rgb(255, 0, 0, 0.5));
-                        //text.setFill(Color.rgb(255, 255, 255, 1.));
-                        //rectangle.setFill(color);
-                        //rectangle.setFill(color).setOpacity(0.5);
-                        //rectangle.setOpacity(0.5);
-                        //text.setFill(color);
                         break;
                     }
                     case MouseButton.SECONDARY: {
-                        //color = Color.rgb(0, 0, 255);
                         Mut.color = Color.rgb(0, 0, 255);
-                        //rectangle.setFill(Color.rgb(0, 0, 255, 0.5));
                         break;
                     }
                     case MouseButton.MIDDLE: {
-                        //color = Color.rgb(0, 255, 0);
                         Mut.color = Color.rgb(0, 255, 0);
-                        //rectangle.setFill(Color.rgb(0, 255, 0, 0.5));
                         break;
                     }
                     default: {
                     }
                 };
-                //text.setFill(color);
-                //rectangle.setFill(color);
                 text.setFill(Mut.color);
                 rectangle.setFill(Mut.color);
                 rectangle.setOpacity(0.5);
@@ -304,8 +264,6 @@ public class GUI extends Application {
             @Override
             public void handle(ScrollEvent e) {
                 double wheel = e.getDeltaY();
-                //System.out.println(wheel);
-                
                 Mut.textY += wheel;
                 text.setY(Mut.textY);
             }
