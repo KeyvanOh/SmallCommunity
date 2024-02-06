@@ -80,6 +80,14 @@ class Sender2 extends Thread {
                 if(chat.length() == 0) {
                     continue;
                 } else {
+                    //read and write here?
+                    String chatScreen = Fn.readText(Const.FILE_NAME_RECEIVE);
+                    chatScreen = chatScreen.concat(chat);
+                    Fn.writeText(chatScreen, Const.FILE_NAME_RECEIVE);
+                    //it should be related with Mut.chatStack;
+                    
+                    
+                    
                     out.writeUTF(name.concat(chat));
                     //Fn.writeText("");
                     Fn.writeText("", Const.FILE_NAME_CHAT);
@@ -112,7 +120,14 @@ class Receiver2 extends Thread {
                 String receive = in.readUTF();
                 //System.out.println(in.readUTF());
                 //System.out.println(receive);
-                Mut.chatStack = Mut.chatStack.concat("\n").concat(receive);
+                
+                //Mut.chatStack = Mut.chatStack.concat("\n").concat(receive);
+                
+                
+                Mut.chatStack = Fn.readText(Const.FILE_NAME_RECEIVE);
+                Mut.chatStack = Mut.chatStack.concat(receive).concat("\n");
+                
+                
                 //Fn.writeText(in.readUTF(), Const.FILE_NAME_RECEIVE);
                 //Fn.writeText(receive, Const.FILE_NAME_RECEIVE);
                 Fn.writeText(Mut.chatStack, Const.FILE_NAME_RECEIVE);
@@ -142,8 +157,9 @@ class Fn {
             while(bufferedReader.ready()) {
                 String temp = bufferedReader.readLine();
                 //chat = chat.concat(temp);
-                chat = chat.concat("\n");
+                //chat = chat.concat("\n");
                 chat = chat.concat(temp);
+                chat = chat.concat("\n");
             };
         } catch(IOException e) {
             e.printStackTrace();
@@ -295,8 +311,9 @@ public class GUI extends Application {
         
         Group root = new Group();
         root.getChildren().add(imageView);
-        root.getChildren().add(textField);
         root.getChildren().add(text);
+        root.getChildren().add(textField);
+        //root.getChildren().add(text);
         root.getChildren().add(rectangle);
         
         Scene scene = new Scene(root, width, height);
