@@ -9,6 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.1.0'
+    //id 'test1.Print'
 }
 
 repositories {
@@ -17,7 +18,8 @@ repositories {
 }
 
 javafx {
-    version = "21.0.2"
+    //version = "21.0.2"
+    version = "21"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
@@ -33,6 +35,10 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
     
+    //implementation files('build/classes/java/main')
+    //implementation files('app/src/main/java/test1')
+    //implementation files('app/src/main/java/test1/Print.java')
+    
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -45,6 +51,8 @@ java {
 application {
     // Define the main class for the application.
     //mainClass = 'org.example.App'
-    mainClass = 'Main'
+    //mainClass = 'Main'
+    //mainClass = 'test1.Main'
+    mainClass = 'test2.Main'
     //mainClass = 'gui.Main'
 }
