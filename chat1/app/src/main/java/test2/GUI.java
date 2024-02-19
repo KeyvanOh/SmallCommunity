@@ -53,6 +53,9 @@ public class GUI extends Application {
         //Print.append(Mut.port);
         Print.append(port);
         
+        
+        
+        
         Text text = new Text();
         text.setText(Print.getAndReset());
         text.setFont(font);
@@ -60,9 +63,61 @@ public class GUI extends Application {
         text.setX(0);
         text.setY(32);
         
+        
+        
+        
+        
+        Text buttonShow = new Text();
+        buttonShow.setText("SHOW");
+        buttonShow.setFont(font);
+        buttonShow.setFill(Color.rgb(255, 0, 0));
+        buttonShow.setX(0);
+        buttonShow.setY(64);
+        
+        
+        EventHandler<MouseEvent> eventHandlerText1 = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                //MouseButton mouseButton = e.getButton();
+                //switch()
+                buttonShow.setFill(Color.rgb(0, 0, 255));
+                //System.out.println("MOUSE_ENTERED");
+                //System.out.println("MOUSE_ENTERED");
+                
+                
+                //System.out.println(e);
+                
+                /*
+                switch(e) {
+                    case MouseEvent.MOUSE_ENTERED: {
+                        break;
+                    }
+                    default: {
+                    }
+                }
+                */
+                
+            }
+        };
+        EventHandler<MouseEvent> eventHandlerText2 = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                buttonShow.setFill(Color.rgb(255, 0, 0));
+                //System.out.println("MOUSE_EXITED");
+            }
+        };
+        buttonShow.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerText1);
+        buttonShow.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerText2);
+        //buttonShow.addEventHandler(MouseEvent.MOUSE_MOVED, eventHandlerText2);
+        
+        
+        
+        
+        
         Group root = new Group();
         root.getChildren().add(imageView);
         root.getChildren().add(text);
+        root.getChildren().add(buttonShow);
         
         Scene scene = new Scene(root, width, height);
         
