@@ -43,5 +43,6 @@ java {
 application {
     // Define the main class for the application.
     //mainClass = 'org.example.App'
-    mainClass = 'Main'
+    //mainClass = 'Main'
+    mainClass = 'main2.Main'
 }
