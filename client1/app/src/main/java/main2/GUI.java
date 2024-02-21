@@ -73,9 +73,47 @@ public class GUI extends Application {
         };
         textArea.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerTextArea);
         
+        Rectangle rectangleYourIP = new Rectangle();
+        rectangleYourIP.setY(7);
+        rectangleYourIP.setWidth(width);
+        rectangleYourIP.setHeight(30);
+        rectangleYourIP.setFill(Color.rgb(255, 0, 0));
+        rectangleYourIP.setOpacity(0.5);
+        
+        Rectangle rectangleServerIP = new Rectangle();
+        rectangleServerIP.setY(37);
+        rectangleServerIP.setWidth(width);
+        rectangleServerIP.setHeight(30);
+        rectangleServerIP.setFill(Color.rgb(0, 0, 255));
+        rectangleServerIP.setOpacity(0.5);
+        
+        Font font = Font.loadFont("file:DungGeunMo.ttf", 16);
+        
+        Text textYourIP = new Text();
+        textYourIP.setText("Your IP: ");
+        textYourIP.setFont(font);
+        textYourIP.setFill(Color.rgb(255, 255, 255));
+        textYourIP.setX(0);
+        textYourIP.setY(30);
+        
+        Text textServerIP = new Text();
+        textServerIP.setText("Server IP: ");
+        textServerIP.setFont(font);
+        //textServerIP.setFill(Color.rgb(0, 0, 0));
+        textServerIP.setFill(Color.rgb(255, 255, 255));
+        textServerIP.setX(0);
+        //textServerIP.setY(30);
+        textServerIP.setY(60);
+        
+        
+        
         Group root = new Group();
         root.getChildren().add(imageView);
         root.getChildren().add(textArea);
+        root.getChildren().add(rectangleYourIP);
+        root.getChildren().add(rectangleServerIP);
+        root.getChildren().add(textYourIP);
+        root.getChildren().add(textServerIP);
         
         Scene scene = new Scene(root, width, height);
         
