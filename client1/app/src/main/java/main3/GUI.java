@@ -49,22 +49,31 @@ public class GUI extends Application {
         rectangleYourIp.setY(7);
         rectangleYourIp.setWidth(width / 2);
         rectangleYourIp.setHeight(30);
-        rectangleYourIp.setFill(Color.rgb(255, 255, 0));
-        rectangleYourIp.setOpacity(0.5);
+        //rectangleYourIp.setFill(Color.rgb(255, 255, 0));
+        rectangleYourIp.setFill(Color.rgb(0, 255, 0));
+        rectangleYourIp.setOpacity(Const.A_SHADOW);
         
         Rectangle rectangleServerIp = new Rectangle();
         rectangleServerIp.setY(37);
         rectangleServerIp.setWidth(width / 2);
         rectangleServerIp.setHeight(30);
-        rectangleServerIp.setFill(Color.rgb(0, 255, 0));
-        rectangleServerIp.setOpacity(0.5);
+        //rectangleServerIp.setFill(Color.rgb(0, 255, 0));
+        rectangleServerIp.setFill(Color.rgb(255, 255, 255));
+        rectangleServerIp.setOpacity(Const.A_SHADOW);
         
         Rectangle rectanglePort = new Rectangle();
         rectanglePort.setY(67);
         rectanglePort.setWidth(width / 2);
         rectanglePort.setHeight(30);
-        rectanglePort.setFill(Color.rgb(0, 255, 255));
-        rectanglePort.setOpacity(0.5);
+        //rectanglePort.setFill(Color.rgb(0, 255, 255));
+        rectanglePort.setFill(Const.RED);
+        rectanglePort.setOpacity(Const.A_SHADOW);
+        
+        
+        
+        
+        
+        
         
         Font font = Font.loadFont("file:DungGeunMo.ttf", 16);
         
@@ -78,23 +87,34 @@ public class GUI extends Application {
         };
         textYourIp.setText(yourIp);
         textYourIp.setFont(font);
-        textYourIp.setFill(Color.rgb(0, 0, 0));
+        textYourIp.setFill(Const.BLACK);
         textYourIp.setX(10);
         textYourIp.setY(30);
         
         Text textServerIp = new Text();
         textServerIp.setText("Server IP: ");
         textServerIp.setFont(font);
-        textServerIp.setFill(Color.rgb(0, 0, 0));
+        textServerIp.setFill(Const.BLACK);
         textServerIp.setX(10);
         textServerIp.setY(60);
         
         Text textPort = new Text();
         textPort.setText("Port Number: ");
         textPort.setFont(font);
-        textPort.setFill(Color.rgb(0, 0, 0));
+        textPort.setFill(Const.BLACK);
         textPort.setX(10);
         textPort.setY(90);
+        
+        
+        Text textConnection = new Text();
+        textConnection.setText("NULL");
+        textConnection.setFont(font);
+        textConnection.setFill(Const.RED);
+        textConnection.setX(width - 100);
+        textConnection.setY(30);
+        
+        
+        
         
         EventHandler<KeyEvent> eventHandlerTextArea = new EventHandler<KeyEvent>() {
             @Override
@@ -136,7 +156,7 @@ public class GUI extends Application {
         EventHandler<MouseEvent> eventHandlerMouseOutYourIp = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                rectangleYourIp.setOpacity(0.5);
+                rectangleYourIp.setOpacity(Const.A_SHADOW);
             }
         };
         rectangleYourIp.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutYourIp);
@@ -150,7 +170,7 @@ public class GUI extends Application {
         EventHandler<MouseEvent> eventHandlerMouseOutYourIp = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                //rectangleYourIp.setOpacity(0.5);
+                //rectangleYourIp.setOpacity(Const.A_SHADOW);
                 //rectangleYourIp.setOpacity(1.);
                 
                 //System.out.println(e);
@@ -164,14 +184,15 @@ public class GUI extends Application {
                 
                 switch(mouseEvent) {
                     case "MOUSE_ENTERED": {
-                        rectangleYourIp.setOpacity(1.);
+                        //rectangleYourIp.setOpacity(1.);
+                        rectangleYourIp.setOpacity(Const.A_MAX);
                         break;
                     }
                     case "MOUSE_EXITED": {
                         if (Mut.buttonClicked != 1) {
-                            rectangleYourIp.setOpacity(0.5);
+                            rectangleYourIp.setOpacity(Const.A_SHADOW);
                         };
-                        //rectangleYourIp.setOpacity(0.5);
+                        //rectangleYourIp.setOpacity(Const.A_SHADOW);
                         break;
                     }
                     case "MOUSE_CLICKED": {
@@ -181,9 +202,10 @@ public class GUI extends Application {
                             textArea.clear();
                             Mut.buttonClicked = 1;
                             System.out.println(Mut.buttonClicked);
-                            rectangleYourIp.setOpacity(1.);
-                            rectangleServerIp.setOpacity(0.5);
-                            rectanglePort.setOpacity(0.5);
+                            //rectangleYourIp.setOpacity(1.);
+                            rectangleYourIp.setOpacity(Const.A_MAX);
+                            rectangleServerIp.setOpacity(Const.A_SHADOW);
+                            rectanglePort.setOpacity(Const.A_SHADOW);
                             //Fn.setRectOpacity();
                         };
                         
@@ -197,12 +219,13 @@ public class GUI extends Application {
                 if (rectangleYourIp.getOpacity() == 0.5) {
                     rectangleYourIp.setOpacity(1.);
                 } else {
-                    rectangleYourIp.setOpacity(0.5);
+                    rectangleYourIp.setOpacity(Const.A_SHADOW);
                 };
                 */
             }
         };
         rectangleYourIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOutYourIp);
+        textYourIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOutYourIp);
         
         
         EventHandler<MouseEvent> eventHandlerMouseOnServerIp = new EventHandler<MouseEvent>() {
@@ -213,15 +236,16 @@ public class GUI extends Application {
                     case "MOUSE_ENTERED": {
                         Mut.isOnServerIp = true;
                         //textArea.clear();
-                        rectangleServerIp.setOpacity(1.);
+                        //rectangleServerIp.setOpacity(1.);
+                        rectangleServerIp.setOpacity(Const.A_MAX);
                         break;
                     }
                     case "MOUSE_EXITED": {
                         if (Mut.buttonClicked != 2) {
-                            rectangleServerIp.setOpacity(0.5);
+                            rectangleServerIp.setOpacity(Const.A_SHADOW);
                         };
                         Mut.isOnServerIp = false;
-                        //rectangleServerIp.setOpacity(0.5);
+                        //rectangleServerIp.setOpacity(Const.A_SHADOW);
                         break;
                     }
                     case "MOUSE_CLICKED": {
@@ -229,9 +253,10 @@ public class GUI extends Application {
                             textArea.clear();
                             Mut.buttonClicked = 2;
                             System.out.println(Mut.buttonClicked);
-                            rectangleYourIp.setOpacity(0.5);
-                            rectangleServerIp.setOpacity(1.);
-                            rectanglePort.setOpacity(0.5);
+                            rectangleYourIp.setOpacity(Const.A_SHADOW);
+                            //rectangleServerIp.setOpacity(1.);
+                            rectangleServerIp.setOpacity(Const.A_MAX);
+                            rectanglePort.setOpacity(Const.A_SHADOW);
                         };
                         break;
                     }
@@ -241,6 +266,7 @@ public class GUI extends Application {
             }
         };
         rectangleServerIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnServerIp);
+        textServerIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnServerIp);
         
         
         
@@ -264,7 +290,7 @@ public class GUI extends Application {
             @Override
             public void handle(MouseEvent e) {
                 Mut.isOnServerIp = false;
-                rectangleServerIp.setOpacity(0.5);
+                rectangleServerIp.setOpacity(Const.A_SHADOW);
             }
         };
         rectangleServerIp.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutServerIp);
@@ -280,15 +306,16 @@ public class GUI extends Application {
                     case "MOUSE_ENTERED": {
                         Mut.isOnPort = true;
                         //textArea.clear();
-                        rectanglePort.setOpacity(1.);
+                        //rectanglePort.setOpacity(1.);
+                        rectanglePort.setOpacity(Const.A_MAX);
                         break;
                     }
                     case "MOUSE_EXITED": {
                         if (Mut.buttonClicked != 3) {
-                            rectanglePort.setOpacity(0.5);
+                            rectanglePort.setOpacity(Const.A_SHADOW);
                         };
                         Mut.isOnPort = false;
-                        //rectanglePort.setOpacity(0.5);
+                        //rectanglePort.setOpacity(Const.A_SHADOW);
                         break;
                     }
                     case "MOUSE_CLICKED": {
@@ -296,9 +323,10 @@ public class GUI extends Application {
                             textArea.clear();
                             Mut.buttonClicked = 3;
                             System.out.println(Mut.buttonClicked);
-                            rectangleYourIp.setOpacity(0.5);
-                            rectangleServerIp.setOpacity(0.5);
-                            rectanglePort.setOpacity(1.);
+                            rectangleYourIp.setOpacity(Const.A_SHADOW);
+                            rectangleServerIp.setOpacity(Const.A_SHADOW);
+                            //rectanglePort.setOpacity(1.);
+                            rectanglePort.setOpacity(Const.A_MAX);
                         };
                         break;
                     }
@@ -308,6 +336,7 @@ public class GUI extends Application {
             }
         };
         rectanglePort.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnPort);
+        textPort.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnPort);
         
         
         
@@ -324,11 +353,99 @@ public class GUI extends Application {
             @Override
             public void handle(MouseEvent e) {
                 Mut.isOnPort = false;
-                rectanglePort.setOpacity(0.5);
+                rectanglePort.setOpacity(Const.A_SHADOW);
             }
         };
         rectanglePort.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutPort);
         */
+        
+        
+        /*
+        EventHandler<MouseEvent> eventHandlerMouseOnConnectionButton = new EventHandler<MouseButton>() {
+            @Override
+            public void handle(MouseEvent e) {
+                textConnection.setFill()
+            }
+            
+        };
+        */
+        
+        EventHandler<MouseEvent> eventHandlerMouseOnConnectionButton = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                String mouseEvent = String.valueOf(e.getEventType());
+                switch(mouseEvent) {
+                    case "MOUSE_ENTERED": {
+                        //Mut.isOnPort = true;
+                        //textArea.clear();
+                        //rectanglePort.setOpacity(1.);
+                        //rectanglePort.setOpacity(Const.A_MAX);
+                        textConnection.setFill(Const.YELLOW);
+                        break;
+                    }
+                    case "MOUSE_EXITED": {
+                        /*
+                        if (Mut.buttonClicked != 3) {
+                            rectanglePort.setOpacity(Const.A_SHADOW);
+                        };
+                        Mut.isOnPort = false;
+                        */
+                        //rectanglePort.setOpacity(Const.A_SHADOW);
+                        textConnection.setFill(Const.RED);
+                        break;
+                    }
+                    case "MOUSE_CLICKED": {
+                        if (e.getButton() == MouseButton.PRIMARY) {
+                            /*
+                            textArea.clear();
+                            Mut.buttonClicked = 3;
+                            System.out.println(Mut.buttonClicked);
+                            rectangleYourIp.setOpacity(Const.A_SHADOW);
+                            rectangleServerIp.setOpacity(Const.A_SHADOW);
+                            //rectanglePort.setOpacity(1.);
+                            rectanglePort.setOpacity(Const.A_MAX);
+                            */
+                        };
+                        break;
+                    }
+                    default: {
+                    }
+                };
+            }
+        };
+        textConnection.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnConnectionButton);
+        
+        
+        
+        EventHandler<MouseEvent> eventHandlerMouseOnBackground = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                /*
+                String mouseEvent = String.valueOf(e.getEventType());
+                if (mouseEvent.equals("MOUSE_CLICKED")) {
+                    textArea.clear();
+                    Mut.buttonClicked = 0;
+                    System.out.println(Mut.buttonClicked);
+                    rectangleYourIp.setOpacity(Const.A_SHADOW);
+                    rectangleServerIp.setOpacity(Const.A_SHADOW);
+                    rectanglePort.setOpacity(Const.A_SHADOW);
+                };
+                */
+                textArea.clear();
+                Mut.buttonClicked = 0;
+                System.out.println(Mut.buttonClicked);
+                rectangleYourIp.setOpacity(Const.A_SHADOW);
+                rectangleServerIp.setOpacity(Const.A_SHADOW);
+                rectanglePort.setOpacity(Const.A_SHADOW);
+            }
+        };
+        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerMouseOnBackground);
+        
+        
+        
+        
+        
+        
         
         
         
@@ -341,6 +458,7 @@ public class GUI extends Application {
         root.getChildren().add(textYourIp);
         root.getChildren().add(textServerIp);
         root.getChildren().add(textPort);
+        root.getChildren().add(textConnection);
         
         Scene scene = new Scene(root, width, height);
         
