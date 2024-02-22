@@ -1,6 +1,7 @@
 package main2;
 
 import java.io.*;
+import java.net.*;
 
 import javafx.application.*;
 import javafx.event.EventHandler;
@@ -51,6 +52,82 @@ public class GUI extends Application {
         textArea.setPrefWidth(width);
         textArea.setPrefHeight(30);
         
+        
+        Rectangle rectangleYourIP = new Rectangle();
+        rectangleYourIP.setY(7);
+        //rectangleYourIP.setWidth(width);
+        rectangleYourIP.setWidth(width / 2);
+        rectangleYourIP.setHeight(30);
+        //rectangleYourIP.setFill(Color.rgb(255, 0, 0));
+        rectangleYourIP.setFill(Color.rgb(255, 255, 0));
+        rectangleYourIP.setOpacity(0.5);
+        
+        Rectangle rectangleServerIP = new Rectangle();
+        rectangleServerIP.setY(37);
+        //rectangleServerIP.setWidth(width);
+        rectangleServerIP.setWidth(width / 2);
+        rectangleServerIP.setHeight(30);
+        //rectangleServerIP.setFill(Color.rgb(0, 0, 255));
+        rectangleServerIP.setFill(Color.rgb(0, 255, 0));
+        rectangleServerIP.setOpacity(0.5);
+        
+        Rectangle rectanglePort = new Rectangle();
+        rectanglePort.setY(67);
+        rectanglePort.setWidth(width / 2);
+        rectanglePort.setHeight(30);
+        rectanglePort.setFill(Color.rgb(0, 255, 255));
+        rectanglePort.setOpacity(0.5);
+        
+        
+        
+        Font font = Font.loadFont("file:DungGeunMo.ttf", 16);
+        
+        Text textYourIP = new Text();
+        //textYourIP.setText("Your IP: ");
+        //textYourIP.setText("Your IP: " + InetAddress.getLocalHost());
+        
+        String yourIp = "Your IP: ";
+        
+        try {
+            //yourIp.concat(InetAddress.getLocalHost());
+            //yourIp += InetAddress.getLocalHost();
+            //yourIp += InetAddress.getLocalHost().getHostAddress();
+            yourIp = yourIp.concat(InetAddress.getLocalHost().getHostAddress());
+        } catch(UnknownHostException e) {
+            e.printStackTrace();
+        };
+        
+        textYourIP.setText(yourIp);
+        
+        textYourIP.setFont(font);
+        //textYourIP.setFill(Color.rgb(255, 255, 255));
+        textYourIP.setFill(Color.rgb(0, 0, 0));
+        //textYourIP.setFill(Color.rgb(255, 255, 0));
+        //textYourIP.setX(0);
+        textYourIP.setX(10);
+        textYourIP.setY(30);
+        
+        Text textServerIP = new Text();
+        textServerIP.setText("Server IP: ");
+        textServerIP.setFont(font);
+        //textServerIP.setFill(Color.rgb(0, 0, 0));
+        //textServerIP.setFill(Color.rgb(255, 255, 255));
+        textServerIP.setFill(Color.rgb(0, 0, 0));
+        //textServerIP.setFill(Color.rgb(0, 255, 0));
+        //textServerIP.setX(0);
+        textServerIP.setX(10);
+        //textServerIP.setY(30);
+        textServerIP.setY(60);
+        
+        Text textPort = new Text();
+        textPort.setText("Port Number: ");
+        textPort.setFont(font);
+        textPort.setFill(Color.rgb(0, 0, 0));
+        textPort.setX(10);
+        //textPort.setY(60);
+        textPort.setY(90);
+        
+        
         EventHandler<KeyEvent> eventHandlerTextArea = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
@@ -69,41 +146,96 @@ public class GUI extends Application {
                 } catch(Exception err) {
                     err.printStackTrace();
                 };
+                
+                if (Mut.isOnServerIp == true) {
+                    Mut.serverIp = textArea.getText();
+                    //textServerIP.setText("Server IP: " + textArea.getText());
+                    textServerIP.setText("Server IP: " + Mut.serverIp);
+                };
+                if (Mut.isOnPort == true) {
+                    Mut.port = textArea.getText();
+                    //textServerIP.setText("Server IP: " + Mut.serverIp);
+                    textPort.setText("Port Number: " + Mut.port);
+                };
             }
         };
         textArea.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerTextArea);
         
-        Rectangle rectangleYourIP = new Rectangle();
-        rectangleYourIP.setY(7);
-        rectangleYourIP.setWidth(width);
-        rectangleYourIP.setHeight(30);
-        rectangleYourIP.setFill(Color.rgb(255, 0, 0));
-        rectangleYourIP.setOpacity(0.5);
         
-        Rectangle rectangleServerIP = new Rectangle();
-        rectangleServerIP.setY(37);
-        rectangleServerIP.setWidth(width);
-        rectangleServerIP.setHeight(30);
-        rectangleServerIP.setFill(Color.rgb(0, 0, 255));
-        rectangleServerIP.setOpacity(0.5);
+        EventHandler<MouseEvent> eventHandlerMouseOnYourIp = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                //rectangleYourIP.setOpacity(0.25);
+                //textYourIP.setOpacity(0.25);
+                //rectangleYourIP.setOpacity(0.5);
+                rectangleYourIP.setOpacity(1.);
+                //textYourIP.setOpacity(0.5);
+                
+                //textYourIP.setText(textYourIP.getText() + textArea.getText());
+                //textYourIP.setText("Your IP: " + textArea.getText());
+            }
+        };
+        rectangleYourIP.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerMouseOnYourIp);
         
-        Font font = Font.loadFont("file:DungGeunMo.ttf", 16);
+        EventHandler<MouseEvent> eventHandlerMouseOutYourIp = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                //rectangleYourIP.setOpacity(0.25);
+                rectangleYourIP.setOpacity(0.5);
+                //rectangleYourIP.setOpacity(1.);
+                //textYourIP.setOpacity(0.5);
+                //textYourIP.setOpacity(1.);
+                //textYourIP.setText("Your IP: " + textArea.getText());
+            }
+        };
+        rectangleYourIP.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutYourIp);
         
-        Text textYourIP = new Text();
-        textYourIP.setText("Your IP: ");
-        textYourIP.setFont(font);
-        textYourIP.setFill(Color.rgb(255, 255, 255));
-        textYourIP.setX(0);
-        textYourIP.setY(30);
         
-        Text textServerIP = new Text();
-        textServerIP.setText("Server IP: ");
-        textServerIP.setFont(font);
-        //textServerIP.setFill(Color.rgb(0, 0, 0));
-        textServerIP.setFill(Color.rgb(255, 255, 255));
-        textServerIP.setX(0);
-        //textServerIP.setY(30);
-        textServerIP.setY(60);
+        EventHandler<MouseEvent> eventHandlerMouseOnServerIP = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                Mut.isOnServerIp = true;
+                //rectangleServerIP.setOpacity(0.5);
+                rectangleServerIP.setOpacity(1.);
+                //textServerIP.setOpacity(0.5);
+                //textServerIP.setText("Server IP: " + textArea.getText());
+                textArea.clear();
+            }
+        };
+        rectangleServerIP.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerMouseOnServerIP);
+        
+        EventHandler<MouseEvent> eventHandlerMouseOutServerIP = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                Mut.isOnServerIp = false;
+                //rectangleServerIP.setOpacity(1.);
+                rectangleServerIP.setOpacity(0.5);
+                //textServerIP.setOpacity(1.);
+                //textServerIP.setText("Server IP: " + textArea.getText());
+            }
+        };
+        rectangleServerIP.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutServerIP);
+        
+        
+        EventHandler<MouseEvent> eventHandlerMouseOnPort = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                Mut.isOnPort = true;
+                rectanglePort.setOpacity(1.);
+            }
+        };
+        rectanglePort.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerMouseOnPort);
+        
+        EventHandler<MouseEvent> eventHandlerMouseOutPort = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                Mut.isOnPort = false;
+                rectanglePort.setOpacity(0.5);
+            }
+        };
+        rectanglePort.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutPort);
+        
+        
         
         
         
@@ -112,8 +244,10 @@ public class GUI extends Application {
         root.getChildren().add(textArea);
         root.getChildren().add(rectangleYourIP);
         root.getChildren().add(rectangleServerIP);
+        root.getChildren().add(rectanglePort);
         root.getChildren().add(textYourIP);
         root.getChildren().add(textServerIP);
+        root.getChildren().add(textPort);
         
         Scene scene = new Scene(root, width, height);
         

@@ -1,0 +1,14 @@
+package main2;
+
+public class Mut {
+    public static boolean isOnServerIp = false;
+    public static boolean isOnPort = false;
+    
+    
+    public static String serverIp = new String();
+    //public static int port;
+    //public static int port = -1;
+    public static String port = new String();
+    
+    public static int buttonClicked = 0;
+}
