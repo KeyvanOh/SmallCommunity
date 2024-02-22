@@ -111,11 +111,13 @@ public class GUI extends Application {
                 } catch(Exception err) {
                     err.printStackTrace();
                 };
-                if (Mut.isOnServerIp == true) {
+                //if (Mut.isOnServerIp == true) {
+                //if (Mut.isOnServerIp == true ) {
+                if (Mut.buttonClicked == 2 ) {
                     Mut.serverIp = textArea.getText();
                     textServerIp.setText("Server IP: " + Mut.serverIp);
-                };
-                if (Mut.isOnPort == true) {
+                } else if (Mut.buttonClicked == 3) {
+                //if (Mut.isOnPort == true) {
                     Mut.port = textArea.getText();
                     textPort.setText("Port Number: " + Mut.port);
                 };
@@ -123,6 +125,7 @@ public class GUI extends Application {
         };
         textArea.addEventHandler(KeyEvent.KEY_RELEASED, eventHandlerTextArea);
         
+        /*
         EventHandler<MouseEvent> eventHandlerMouseOnYourIp = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -130,7 +133,6 @@ public class GUI extends Application {
             }
         };
         rectangleYourIp.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerMouseOnYourIp);
-        
         EventHandler<MouseEvent> eventHandlerMouseOutYourIp = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -138,7 +140,117 @@ public class GUI extends Application {
             }
         };
         rectangleYourIp.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutYourIp);
+        */
         
+        
+        
+        
+        
+        
+        EventHandler<MouseEvent> eventHandlerMouseOutYourIp = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                //rectangleYourIp.setOpacity(0.5);
+                //rectangleYourIp.setOpacity(1.);
+                
+                //System.out.println(e);
+                //System.out.println(e.getEventType());
+                
+                //MouseEvent mouseEvent = e.getEventType();
+                //MouseEvent mouseEvent = e.getEventType();
+                //String mouseEvent = e.getEventType();
+                String mouseEvent = String.valueOf(e.getEventType());
+                //System.out.println(mouseEvent);
+                
+                switch(mouseEvent) {
+                    case "MOUSE_ENTERED": {
+                        rectangleYourIp.setOpacity(1.);
+                        break;
+                    }
+                    case "MOUSE_EXITED": {
+                        if (Mut.buttonClicked != 1) {
+                            rectangleYourIp.setOpacity(0.5);
+                        };
+                        //rectangleYourIp.setOpacity(0.5);
+                        break;
+                    }
+                    case "MOUSE_CLICKED": {
+                        //System.out.println(e.getButton());
+                        //if (e.getButton() == MouseEvent.MouseButton.PRIMARY) {
+                        if (e.getButton() == MouseButton.PRIMARY) {
+                            textArea.clear();
+                            Mut.buttonClicked = 1;
+                            System.out.println(Mut.buttonClicked);
+                            rectangleYourIp.setOpacity(1.);
+                            rectangleServerIp.setOpacity(0.5);
+                            rectanglePort.setOpacity(0.5);
+                            //Fn.setRectOpacity();
+                        };
+                        
+                        break;
+                    }
+                    default: {
+                    }
+                };
+                
+                /*
+                if (rectangleYourIp.getOpacity() == 0.5) {
+                    rectangleYourIp.setOpacity(1.);
+                } else {
+                    rectangleYourIp.setOpacity(0.5);
+                };
+                */
+            }
+        };
+        rectangleYourIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOutYourIp);
+        
+        
+        EventHandler<MouseEvent> eventHandlerMouseOnServerIp = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                String mouseEvent = String.valueOf(e.getEventType());
+                switch(mouseEvent) {
+                    case "MOUSE_ENTERED": {
+                        Mut.isOnServerIp = true;
+                        //textArea.clear();
+                        rectangleServerIp.setOpacity(1.);
+                        break;
+                    }
+                    case "MOUSE_EXITED": {
+                        if (Mut.buttonClicked != 2) {
+                            rectangleServerIp.setOpacity(0.5);
+                        };
+                        Mut.isOnServerIp = false;
+                        //rectangleServerIp.setOpacity(0.5);
+                        break;
+                    }
+                    case "MOUSE_CLICKED": {
+                        if (e.getButton() == MouseButton.PRIMARY) {
+                            textArea.clear();
+                            Mut.buttonClicked = 2;
+                            System.out.println(Mut.buttonClicked);
+                            rectangleYourIp.setOpacity(0.5);
+                            rectangleServerIp.setOpacity(1.);
+                            rectanglePort.setOpacity(0.5);
+                        };
+                        break;
+                    }
+                    default: {
+                    }
+                };
+            }
+        };
+        rectangleServerIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnServerIp);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /*
         EventHandler<MouseEvent> eventHandlerMouseOnServerIp = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -148,7 +260,6 @@ public class GUI extends Application {
             }
         };
         rectangleServerIp.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerMouseOnServerIp);
-        
         EventHandler<MouseEvent> eventHandlerMouseOutServerIp = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -157,7 +268,50 @@ public class GUI extends Application {
             }
         };
         rectangleServerIp.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutServerIp);
+        */
         
+        
+        
+        EventHandler<MouseEvent> eventHandlerMouseOnPort = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                String mouseEvent = String.valueOf(e.getEventType());
+                switch(mouseEvent) {
+                    case "MOUSE_ENTERED": {
+                        Mut.isOnPort = true;
+                        //textArea.clear();
+                        rectanglePort.setOpacity(1.);
+                        break;
+                    }
+                    case "MOUSE_EXITED": {
+                        if (Mut.buttonClicked != 3) {
+                            rectanglePort.setOpacity(0.5);
+                        };
+                        Mut.isOnPort = false;
+                        //rectanglePort.setOpacity(0.5);
+                        break;
+                    }
+                    case "MOUSE_CLICKED": {
+                        if (e.getButton() == MouseButton.PRIMARY) {
+                            textArea.clear();
+                            Mut.buttonClicked = 3;
+                            System.out.println(Mut.buttonClicked);
+                            rectangleYourIp.setOpacity(0.5);
+                            rectangleServerIp.setOpacity(0.5);
+                            rectanglePort.setOpacity(1.);
+                        };
+                        break;
+                    }
+                    default: {
+                    }
+                };
+            }
+        };
+        rectanglePort.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnPort);
+        
+        
+        
+        /*
         EventHandler<MouseEvent> eventHandlerMouseOnPort = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -166,7 +320,6 @@ public class GUI extends Application {
             }
         };
         rectanglePort.addEventHandler(MouseEvent.MOUSE_ENTERED, eventHandlerMouseOnPort);
-        
         EventHandler<MouseEvent> eventHandlerMouseOutPort = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -175,6 +328,9 @@ public class GUI extends Application {
             }
         };
         rectanglePort.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerMouseOutPort);
+        */
+        
+        
         
         Group root = new Group();
         root.getChildren().add(imageView);
