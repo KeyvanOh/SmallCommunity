@@ -71,7 +71,9 @@ public class GUI extends Application {
         Text textYourIp = new Text();
         String yourIp = "Your IP: ";
         try {
-            yourIp = yourIp.concat(InetAddress.getLocalHost().getHostAddress());
+            Mut.yourIp = InetAddress.getLocalHost().getHostAddress();
+            //yourIp = yourIp.concat(InetAddress.getLocalHost().getHostAddress());
+            yourIp = yourIp.concat(Mut.yourIp);
         } catch(UnknownHostException e) {
             e.printStackTrace();
         };
@@ -118,10 +120,19 @@ public class GUI extends Application {
                     err.printStackTrace();
                 };
                 if (Mut.buttonClicked == 2) {
-                    Mut.serverIp = textArea.getText();
+                    //Mut.serverIp = textArea.getText();
+                    //Mut.serverIp = textArea.getText().replace("\n", "").replace("\t", "");
+                    //Mut.serverIp = textArea.getText().replaceAll("[\n\t ]", "");
+                    //Mut.serverIp = textArea.getText().replaceAll("[^\\d]", "");
+                    Mut.serverIp = textArea.getText().replaceAll("[^0-9.]", "");
                     textServerIp.setText("Server IP: " + Mut.serverIp);
                 } else if (Mut.buttonClicked == 3) {
-                    Mut.port = textArea.getText();
+                    //Mut.port = textArea.getText();
+                    //Mut.port = textArea.getText().replace("\n", "").replace("\t", "");
+                    //Mut.port = textArea.getText().replaceAll("[\n\t ]", "");
+                    Mut.port = textArea.getText().replaceAll("[^\\d]", "");
+                    //Mut.port = textArea.getText().replaceAll("[^\\d.]", "");
+                    //Mut.serverIp = textArea.getText().replaceAll("[^0-9]", "");
                     textPort.setText("Port Number: " + Mut.port);
                 };
             }
@@ -250,6 +261,30 @@ public class GUI extends Application {
                     }
                     case "MOUSE_CLICKED": {
                         if (e.getButton() == MouseButton.PRIMARY) {
+                            System.out.println("Clicking NULL");
+                            
+                            try {
+                                
+                                JsonFactory jsonFactory = new JsonFactory();
+                                JsonGenerator jsonGenerator = jsonFactory.createGenerator(
+                                    new File("serverIp.json"), JsonEncoding.UTF8
+                                );
+                                jsonGenerator.writeStartObject();
+                                //jsonGenerator.writeNumberField("userIp", Mut.yourIp);
+                                //jsonGenerator.writeNumberField("userIp", Integer.parseInt(Mut.yourIp));
+                                jsonGenerator.writeStringField("userIp", Mut.yourIp);
+                                jsonGenerator.writeStringField("serverIp", Mut.serverIp);
+                                jsonGenerator.writeStringField("port", Mut.port);
+                                jsonGenerator.writeEndObject();
+                                //System.out.println(jsonGenerator);
+                                jsonGenerator.close();
+                                //System.out.println(jsonGenerator);
+                            } catch(Exception err) {
+                                err.printStackTrace();
+                            };
+                            
+                            
+                            
                         };
                         break;
                     }
