@@ -45,5 +45,6 @@ application {
     //mainClass = 'org.example.App'
     //mainClass = 'Main'
     //mainClass = 'main2.Main'
-    mainClass = 'main3.Main'
+    //mainClass = 'main3.Main'
+    mainClass = 'main4.Main'
 }

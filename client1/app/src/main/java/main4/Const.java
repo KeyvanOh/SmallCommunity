@@ -10,4 +10,11 @@ public class Const {
     public static final Color BLACK = Color.rgb(0, 0, 0);
     public static final Color RED = Color.rgb(255, 0, 0);
     public static final Color YELLOW = Color.rgb(255, 255, 0);
+    
+    
+    
+    static final String FILE_NAME_CHAT = "chat.txt";
+    static final String FILE_NAME_RECEIVE = "receive.txt";
+    
+    
 }

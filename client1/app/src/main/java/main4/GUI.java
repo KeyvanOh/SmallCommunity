@@ -23,6 +23,34 @@ public class GUI extends Application {
     public void start(Stage stage) throws FileNotFoundException {
         System.out.println("Here is start under GUI in main4.");
         
+        
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonGenerator jsonGenerator;
+        try {
+            //JsonFactory jsonFactory = new JsonFactory();
+            //JsonGenerator jsonGenerator = jsonFactory.createGenerator(
+            jsonGenerator = jsonFactory.createGenerator(
+                new File("connection.json"), JsonEncoding.UTF8
+            );
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeBooleanField("connection", false);
+            jsonGenerator.writeEndObject();
+            jsonGenerator.close();
+            
+            jsonGenerator = jsonFactory.createGenerator(
+                new File("request.json"), JsonEncoding.UTF8
+            );
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeBooleanField("request", false);
+            jsonGenerator.writeEndObject();
+            jsonGenerator.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        };
+        
+        
+        
+        
         Image image = new Image(new FileInputStream("bg.png"));
         int width = (int)image.getWidth();
         int height = (int)image.getHeight();
@@ -107,6 +135,9 @@ public class GUI extends Application {
         EventHandler<KeyEvent> eventHandlerTextArea = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
+                
+                
+                
                 try {
                     JsonFactory jsonFactory = new JsonFactory();
                     JsonGenerator jsonGenerator = jsonFactory.createGenerator(
@@ -252,36 +283,96 @@ public class GUI extends Application {
                 String mouseEvent = String.valueOf(e.getEventType());
                 switch(mouseEvent) {
                     case "MOUSE_ENTERED": {
-                        textConnection.setFill(Const.YELLOW);
+                        if (Mut.connection == false) {
+                            textConnection.setFill(Const.YELLOW);
+                        } else {
+                            textConnection.setFill(Const.RED);
+                        };
                         break;
                     }
                     case "MOUSE_EXITED": {
-                        textConnection.setFill(Const.RED);
+                        if (Mut.connection == false) {
+                            textConnection.setFill(Const.RED);
+                        } else {
+                            textConnection.setFill(Const.YELLOW);
+                        };
                         break;
                     }
                     case "MOUSE_CLICKED": {
                         if (e.getButton() == MouseButton.PRIMARY) {
-                            System.out.println("Clicking NULL");
-                            
-                            try {
+                            //System.out.println("GUI request: " + Mut.request);
+                            if (Mut.connection == false) {
+                                System.out.println("Clicking NULL");
+                                
+                                
+                                ChatClient.client();
+                                
+                                try {
+                                    
+                                    /*
+                                    JsonFactory jsonFactory = new JsonFactory();
+                                    JsonGenerator jsonGenerator = jsonFactory.createGenerator(
+                                        new File("connection.json"), JsonEncoding.UTF8
+                                    );
+                                    jsonGenerator.writeStartObject();
+                                    //jsonGenerator.writeNumberField("userIp", Mut.yourIp);
+                                    //jsonGenerator.writeNumberField("userIp", Integer.parseInt(Mut.yourIp));
+                                    //jsonGenerator.writeStringField("userIp", Mut.yourIp);
+                                    //jsonGenerator.writeStringField("serverIp", Mut.serverIp);
+                                    //jsonGenerator.writeStringField("port", Mut.port);
+                                    jsonGenerator.writeBooleanField("connection", true);
+                                    jsonGenerator.writeEndObject();
+                                    //System.out.println(jsonGenerator);
+                                    jsonGenerator.close();
+                                    //System.out.println(jsonGenerator);
+                                    */
+                                    //Mut.request = true;
+                                    
+                                    
+                                    
+                                    
+                                    //ChatClient.client();
+                                    
+                                    //Mut.connection = true;
+                                    //textConnection.setText("CONNECTED");
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                } catch(Exception err) {
+                                    err.printStackTrace();
+                                };
+                                
+                                
+                                
+                            } else {
+                                System.out.println("Clicking CONNECTED");
+                                
                                 
                                 JsonFactory jsonFactory = new JsonFactory();
-                                JsonGenerator jsonGenerator = jsonFactory.createGenerator(
-                                    new File("serverIp.json"), JsonEncoding.UTF8
-                                );
-                                jsonGenerator.writeStartObject();
-                                //jsonGenerator.writeNumberField("userIp", Mut.yourIp);
-                                //jsonGenerator.writeNumberField("userIp", Integer.parseInt(Mut.yourIp));
-                                jsonGenerator.writeStringField("userIp", Mut.yourIp);
-                                jsonGenerator.writeStringField("serverIp", Mut.serverIp);
-                                jsonGenerator.writeStringField("port", Mut.port);
-                                jsonGenerator.writeEndObject();
-                                //System.out.println(jsonGenerator);
-                                jsonGenerator.close();
-                                //System.out.println(jsonGenerator);
-                            } catch(Exception err) {
-                                err.printStackTrace();
+                                JsonGenerator jsonGenerator;
+                                try {
+                                    jsonGenerator = jsonFactory.createGenerator(
+                                        new File("request.json"), JsonEncoding.UTF8
+                                    );
+                                    jsonGenerator.writeStartObject();
+                                    jsonGenerator.writeBooleanField("request", true);
+                                    jsonGenerator.writeEndObject();
+                                    jsonGenerator.close();
+                                } catch(Exception err) {
+                                    err.printStackTrace();
+                                };
+                                
                             };
+                            //Mut.request = true;
+                            //System.out.println("GUI request: " + Mut.request);
+                            
+                            
+                            
+                            
+                            
                             
                             
                             
@@ -307,6 +398,59 @@ public class GUI extends Application {
             }
         };
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerMouseOnBackground);
+        
+        
+        EventHandler<MouseEvent> eventHandlerMouseOnWherever = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                
+                try {
+                    JsonFactory jsonFactory = new JsonFactory();
+                    //boolean connection = false;
+                    JsonParser jsonParser = jsonFactory.createJsonParser(new File("connection.json"));
+                    while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                        if ("connection".equals(jsonParser.getCurrentName())) {
+                            jsonParser.nextToken();
+                            Mut.connection = jsonParser.getBooleanValue();
+                        };
+                    };
+                } catch(Exception err) {
+                    err.printStackTrace();
+                };
+                
+                
+                
+                
+                if (Mut.connection == true) {
+                    textConnection.setText("CONNECTED");
+                };
+                
+                
+                
+                
+                
+            }
+        };
+        imageView.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        textArea.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        rectangleYourIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        rectangleServerIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        rectanglePort.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        textYourIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        textServerIp.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        textPort.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        textConnection.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         Group root = new Group();
         root.getChildren().add(imageView);

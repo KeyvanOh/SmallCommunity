@@ -9,4 +9,13 @@ public class Mut {
     public static String port = new String();
     
     public static int buttonClicked = 0;
+    
+    
+    public static String chatStack = new String();
+    
+    public static String name = new String();
+    
+    //public static boolean request = true;
+    
+    public static boolean connection = false;
 }
