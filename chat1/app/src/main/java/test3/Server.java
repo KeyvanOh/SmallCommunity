@@ -67,23 +67,89 @@ public class Server extends Thread {
 class Sender extends Thread {
     Socket socket;
     DataOutputStream out;
-    String name;
+    //String name;
+    JsonFactory jsonFactory = new JsonFactory();
+    JsonGenerator jsonGenerator;
+    
     public Sender(Socket socket) {
         super();
         this.socket = socket;
         try {
             out = new DataOutputStream(socket.getOutputStream());
-            name = "[".concat(String.valueOf(socket.getInetAddress())).concat(String.valueOf(socket.getPort())).concat("]");
+            //name = "[".concat(String.valueOf(socket.getInetAddress())).concat(String.valueOf(socket.getPort())).concat("]");
         } catch(Exception e) {
             e.printStackTrace();
         };
     }
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in, "Cp949");
+        //Scanner scanner = new Scanner(System.in, "Cp949");
+        //String temp = new String();
+        //String input = "WELCOME.";
         while (out != null) {
             try {
-                out.writeUTF(name + scanner.nextLine());
+                //out.writeUTF(name + scanner.nextLine());
+                //out.writeUTF(name);
+                //out.writeUTF("WELCOME.");
+                //System.out.println(out);
+                
+                //String input = "WELCOME.";
+                
+                //if (temp.equals("WELCOME.") == false) {
+                
+                /*
+                if (temp.equals(input) == false) {
+                    //temp = "WELCOME.";
+                    temp = input;
+                    out.writeUTF(temp);
+                };
+                */
+                
+                
+                
+                /*
+                if (temp.equals(input) == false) {
+                    temp = input;
+                    
+                    JsonFactory jsonFactory = new JsonFactory();
+                    JsonGenerator jsonGenerator = jsonFactory.createJsonGenerator(
+                        out, JsonEncoding.UTF8
+                    );
+                    jsonGenerator.writeStartObject();
+                    jsonGenerator.writeStringField("userIp", "123");
+                    jsonGenerator.writeStringField("serverIp", "456");
+                    jsonGenerator.writeStringField("port", "789");
+                    jsonGenerator.writeEndObject();
+                    //jsonGenerator.close();
+                };                    
+                */
+
+                
+                
+                
+                if (Mut.request == true) {
+                    //JsonFactory jsonFactory = new JsonFactory();
+                    //JsonGenerator jsonGenerator = jsonFactory.createJsonGenerator(
+                    jsonGenerator = jsonFactory.createJsonGenerator(
+                        out, JsonEncoding.UTF8
+                    );
+                    jsonGenerator.writeStartObject();
+                    jsonGenerator.writeStringField("userIp", "123");
+                    jsonGenerator.writeStringField("serverIp", "456");
+                    jsonGenerator.writeStringField("port", "789");
+                    jsonGenerator.writeEndObject();
+                    //jsonGenerator.close();
+                    jsonGenerator.flush();
+                    
+                    
+                    Mut.request = false;
+                };
+                
+                
+                
+                
+                
+                
             } catch(Exception e) {
                 e.printStackTrace();
                 Print.print("Sender err\n");
@@ -107,7 +173,27 @@ class Receiver extends Thread {
     public void run() {
         while (in != null) {
             try {
-                System.out.println(in.readUTF());
+                //System.out.println(in.readUTF());
+                //System.out.println(in);
+                
+                JsonFactory jsonFactory = new JsonFactory();
+                JsonParser jsonParser = jsonFactory.createJsonParser(in);
+                while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+                    String fieldname = jsonParser.getCurrentName();
+                    if ("userIp".equals(fieldname)) {
+                        jsonParser.nextToken();
+                        System.out.println(jsonParser.getText());
+                    };
+                    if ("serverIp".equals(fieldname)) {
+                        jsonParser.nextToken();
+                        System.out.println(jsonParser.getText());
+                    };
+                    if ("port".equals(fieldname)) {
+                        jsonParser.nextToken();
+                        System.out.println(jsonParser.getText());
+                    };
+                };
+                
             } catch(Exception e) {
                 e.printStackTrace();
                 Print.print("Receiver err\n");
