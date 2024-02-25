@@ -9,8 +9,8 @@ public class ChatClient {
     public static void client() {
         Socket socket = null;
         try {
-            Fn.writeText("", Const.FILE_NAME_CHAT);
-            Fn.writeText("", Const.FILE_NAME_RECEIVE);
+            //Fn.writeText("", Const.FILE_NAME_CHAT);
+            //Fn.writeText("", Const.FILE_NAME_RECEIVE);
             
             socket = new Socket(Mut.serverIp, Integer.parseInt(Mut.port));
             Print.print("Connected.\n");

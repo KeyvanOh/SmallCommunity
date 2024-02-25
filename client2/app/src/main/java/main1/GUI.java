@@ -343,14 +343,28 @@ public class GUI extends Application {
                                     jsonGenerator.writeEndObject();
                                     jsonGenerator.close();
                                     
-                                    
+                                    System.out.println("buttonClicked: " + Mut.buttonClicked);
                                     if (Mut.buttonClicked == 1) {
                                         
-                                        
+                                        /*
                                         System.out.println(Mut.yourIp);
                                         System.out.println(String.valueOf(new java.util.Date()));
                                         System.out.println(Const.idTime);
                                         System.out.println(Mut.posting);
+                                        */
+                                        
+                                        jsonGenerator = jsonFactory.createGenerator(
+                                            new File("post.json"), JsonEncoding.UTF8
+                                        );
+                                        jsonGenerator.writeStartObject();
+                                        jsonGenerator.writeStringField("userIp", Mut.yourIp);
+                                        jsonGenerator.writeStringField("date", String.valueOf(new java.util.Date()));
+                                        jsonGenerator.writeStringField("idTime", Const.idTime);
+                                        jsonGenerator.writeStringField("post", Mut.posting);
+                                        jsonGenerator.writeEndObject();
+                                        jsonGenerator.close();
+                                        
+                                        
                                         textArea.clear();
                                         //Mut.posting = "";
                                         //textPosting.setText("");
@@ -408,6 +422,16 @@ public class GUI extends Application {
         EventHandler<MouseEvent> eventHandlerMouseOnWherever = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
+                /*
+                //System.out.println(System.currentTimeMillis());
+                //System.out.println(System.currentTimeMillis());
+                long now = System.currentTimeMillis();
+                //if (nowForSecond - System.currentTimeMillis()) {
+                if (now - Mut.nowForSecond >= 1000) {
+                    Mut.nowForSecond = now;
+                    System.out.println(Mut.nowForSecond);
+                };
+                */
                 //System.out.println("event form root.");
                 try {
                     JsonFactory jsonFactory = new JsonFactory();
@@ -445,6 +469,27 @@ public class GUI extends Application {
                         
                         textPosting.setText("Click your IP to post.");
                     };
+                    
+                    long now = System.currentTimeMillis();
+                    if (now - Mut.nowForSecond >= 1000) {
+                        Mut.nowForSecond = now;
+                        System.out.println(Mut.nowForSecond);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    };
+                    
                     
                 };
                 //writer.setColor(100, 100, Const.WHITE);
