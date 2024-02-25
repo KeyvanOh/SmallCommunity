@@ -70,8 +70,7 @@ public class Receiver extends Thread {
                     };
                     String fieldName = jsonParser.getCurrentName();
                     if (fieldName != null) {
-                        System.out.println(fieldName);
-                        
+                        //System.out.println(fieldName);
                         switch (fieldName) {
                             /*
                             case "userIp": {

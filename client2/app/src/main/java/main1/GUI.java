@@ -1,6 +1,7 @@
 package main1;
 
 import java.io.*;
+import java.util.*;
 import java.net.*;
 
 import javafx.application.*;
@@ -161,6 +162,58 @@ public class GUI extends Application {
         textPosting.setFont(font);
         textPosting.setFill(Const.BLACK);
         textPosting.setVisible(false);
+        
+        
+        //Text post01 = new Text(width * 0.5, height - 37., "post01");
+        //Text post01 = new Text(width * 0.5, 37., "post01");
+        //Text post01 = new Text(width * 0.5, 60., "post01");
+        Text post01 = new Text(width * 0.5 + 10., 60., "post01");
+        post01.setFont(font);
+        post01.setFill(Const.WHITE);
+        post01.setVisible(false);
+        
+        /*
+        Text post02 = new Text(width * 0.5, 80., "post02");
+        post02.setFont(font);
+        post02.setFill(Const.WHITE);
+        post02.setVisible(false);
+        
+        Text post03 = new Text(width * 0.5, 100., "post03");
+        post03.setFont(font);
+        post03.setFill(Const.WHITE);
+        post03.setVisible(false);
+        
+        Text post04 = new Text(width * 0.5, 120., "post04");
+        post04.setFont(font);
+        post04.setFill(Const.WHITE);
+        post04.setVisible(false);
+        
+        Text post05 = new Text(width * 0.5, 140., "post05");
+        post05.setFont(font);
+        post05.setFill(Const.WHITE);
+        post05.setVisible(false);
+        
+        Text post06 = new Text(width * 0.5, 160., "post06");
+        post06.setFont(font);
+        post06.setFill(Const.WHITE);
+        post06.setVisible(false);
+        
+        Text post07 = new Text(width * 0.5, 180., "post07");
+        post07.setFont(font);
+        post07.setFill(Const.WHITE);
+        post07.setVisible(false);
+        
+        Text post08 = new Text(width * 0.5, 200., "post08");
+        post08.setFont(font);
+        post08.setFill(Const.WHITE);
+        post08.setVisible(false);
+        
+        Text post09 = new Text(width * 0.5, 220., "post09");
+        post09.setFont(font);
+        post09.setFill(Const.WHITE);
+        post09.setVisible(false);
+        */
+        
         
         
         
@@ -465,6 +518,19 @@ public class GUI extends Application {
                         rectangleIndex.setVisible(true);
                         textPosting.setVisible(true);
                         
+                        
+                        post01.setVisible(true);
+                        /*
+                        post02.setVisible(true);
+                        post03.setVisible(true);
+                        post04.setVisible(true);
+                        post05.setVisible(true);
+                        post06.setVisible(true);
+                        post07.setVisible(true);
+                        post08.setVisible(true);
+                        post09.setVisible(true);
+                        */
+                        
                         Mut.connectionFirst = true;
                         
                         textPosting.setText("Click your IP to post.");
@@ -478,19 +544,124 @@ public class GUI extends Application {
                         
                         
                         
+                        //System.out.println(Fn.readText("list.json"));
                         
-                        
-                        
-                        
-                        
+                        if (Fn.readText("list.json").length() != 0) {
+                            
+                            
+                            try {
+                                JsonFactory jsonFactory = new JsonFactory();
+                                //jsonParser = jsonFactory.createJsonParser(in);
+                                JsonParser jsonParser = jsonFactory.createJsonParser(new File("list.json"));
+                                
+                                //Mut.post01
+                                
+                                //List<String> postNumbers;
+                                Mut.postNumbers = new ArrayList<String>();
+                                
+                                while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+                                    if (jsonParser.currentToken() == JsonToken.START_OBJECT) {
+                                        //jsonGenerator.writeStartObject();
+                                    } else if (jsonParser.currentToken() == JsonToken.END_OBJECT) {
+                                        //jsonGenerator.writeEndObject();
+                                        /*
+                                        Print.append(Mut.postNumberT);
+                                        Print.append(".");
+                                        Print.append(Mut.postT.replaceAll("\\r|\\n", " "));
+                                        //Print.append(Mut.postT);
+                                        Print.append("\n");
+                                        */
+                                        //Mut.post01 = Mut.postNumberT + "." + Mut.postT.replaceAll("\\r|\\n", " ") + "\n" + Mut.post01;
+                                        
+                                        Print.append(Mut.postNumberT);
+                                        Print.append(".");
+                                        Print.append(Mut.postT.replaceAll("\\r|\\n", " "));
+                                        Print.append("\n");
+                                        Print.append(Mut.post01);
+                                        Mut.post01 = Print.getAndReset();
+                                    };
+                                    //System.out.println("here? repeat?");
+                                    String fieldName = jsonParser.getCurrentName();
+                                    if (fieldName != null) {
+                                        //System.out.println(fieldName);
+                                        
+                                        switch (fieldName) {
+                                            case "postNumber": {
+                                                jsonParser.nextToken();
+                                                //System.out.println(jsonParser.getText());
+                                                //Mut.post01
+                                                Mut.postNumberT = jsonParser.getText();
+                                                Mut.postNumbers.add(Mut.postNumberT);
+                                                //jsonGenerator.writeStringField("postNumber", jsonParser.getText());
+                                                break;
+                                            }
+                                            case "userIp": {
+                                                jsonParser.nextToken();
+                                                //System.out.println(jsonParser.getText());
+                                                Mut.userIpT = jsonParser.getText();
+                                                if (Mut.postNumberM.equals(Mut.postNumberT)) {
+                                                    Mut.userIpM = Mut.userIpT;
+                                                };
+                                                //jsonGenerator.writeStringField("userIp", jsonParser.getText());
+                                                break;
+                                            }
+                                            case "date": {
+                                                jsonParser.nextToken();
+                                                //System.out.println(jsonParser.getText());
+                                                Mut.dateT = jsonParser.getText();
+                                                //jsonGenerator.writeStringField("date", jsonParser.getText());
+                                                if (Mut.postNumberM.equals(Mut.postNumberT)) {
+                                                    Mut.dateM = Mut.dateT;
+                                                };
+                                                break;
+                                            }
+                                            case "post": {
+                                                jsonParser.nextToken();
+                                                //System.out.println(jsonParser.getText());
+                                                Mut.postT = jsonParser.getText();
+                                                //jsonGenerator.writeStringField("post", jsonParser.getText());
+                                                if (Mut.postNumberM.equals(Mut.postNumberT)) {
+                                                    Mut.postM = Mut.postT;
+                                                };
+                                                break;
+                                            }
+                                            default: {
+                                            }
+                                        };
+                                    } else {
+                                        //break;
+                                        //jsonParser.nextToken();
+                                        //if (jsonParser == null) {
+                                        //    break;
+                                        //};
+                                    };
+                                };
+                                //post01.setText(Print.getString());
+                                //post01.setText(Print.getAndReset());
+                                post01.setText(Mut.post01);
+                                
+                                if (Mut.buttonClicked != 1) {
+                                    //Mut.postingM
+                                    Print.append(Mut.userIpM);
+                                    Print.append("\n\n" );
+                                    Print.append(Mut.postM);
+                                    Print.append("\n\n");
+                                    Print.append(Mut.dateM);
+                                    textPosting.setText(Print.getAndReset());
+                                };
+                            } catch(Exception err) {
+                                err.printStackTrace();
+                            };
+                            
+                            
+                            
+                        };
                         
                         
                         
                         
                         
                     };
-                    
-                    
                 };
                 //writer.setColor(100, 100, Const.WHITE);
                 //writer.setColor(e.getX(), e.getY(), Const.WHITE);
@@ -528,7 +699,41 @@ public class GUI extends Application {
         */
         
         
-        
+        EventHandler<MouseEvent> eventHandlerMouseOnPost01 = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                //System.out.println(e);
+                //System.out.println(e.getX());
+                //System.out.println(e.getY());
+                double y = e.getY();
+                //System.out.println(y);
+                int length = Mut.postNumbers.size();
+                if (y < 66.) {
+                    //System.out.println(y);
+                    System.out.println(Mut.postNumbers.get(length - 1));
+                } else if (y < (66. + 20. * 1.)) {
+                    System.out.println(Mut.postNumbers.get(length - 2));
+                };
+                
+                for (int i = 0; i < length; i++) {
+                    //double scope = 66. + 20. * (double)i;
+                    double scope = 66. + 16. * (double)i;
+                    //if (y < 66. + 20. * (double)i) {
+                    if (y < scope) {
+                        //System.out.println(Mut.postNumbers.get(length - 1 - i));
+                        Mut.postNumberM = Mut.postNumbers.get(length - 1 - i);
+                        System.out.println(Mut.postNumberM);
+                        break;
+                    //} else if (scope > height + 20.) {
+                    } else if (scope > height + 16.) {
+                        break;
+                    };
+                };
+                
+                //System.out.println(Mut.postNumbers);
+            }
+        };
+        post01.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnPost01);
         
         
         
@@ -555,6 +760,18 @@ public class GUI extends Application {
         root.getChildren().add(rectangleScreen);
         root.getChildren().add(rectangleIndex);
         root.getChildren().add(textPosting);
+        
+        root.getChildren().add(post01);
+        /*
+        root.getChildren().add(post02);
+        root.getChildren().add(post03);
+        root.getChildren().add(post04);
+        root.getChildren().add(post05);
+        root.getChildren().add(post06);
+        root.getChildren().add(post07);
+        root.getChildren().add(post08);
+        root.getChildren().add(post09);
+        */
         
         root.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnWherever);
         

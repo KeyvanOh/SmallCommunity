@@ -19,4 +19,10 @@ public class Print {
     public static String getString() {
         return print.toString();
     }
+    public static String getAndReset() {
+        //String str = print.toString();
+        String str = getString();
+        reset();
+        return str;
+    }
 }
