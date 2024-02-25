@@ -139,7 +139,7 @@ public class Sender extends Thread {
                         str = Print.getAndReset();
                         
                         
-                        System.out.println(str);
+                        //System.out.println(str);
                         
                         
                         
@@ -165,7 +165,7 @@ public class Sender extends Thread {
                         
                     };
                 };        
-                System.out.println(results);
+                //System.out.println(results);
                 //jsonGenerator.writeEndObject();
                 jsonGenerator.writeEndArray();
                 jsonGenerator.flush();

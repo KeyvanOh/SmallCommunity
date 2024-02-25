@@ -24,6 +24,7 @@ public class Server extends Thread {
     private static void server() {
         try {
             Mut.serverSocket = new ServerSocket(Mut.port);
+            //ServerSocket serverSocket999 = new ServerSocket(Mut.port);
             Print.print("Server is running.\n");
             
             JsonFactory jsonFactory = new JsonFactory();
@@ -37,12 +38,17 @@ public class Server extends Thread {
             
             while(true) {
                 Mut.socket = Mut.serverSocket.accept();
+                //Socket socket999 = serverSocket999.accept();
                 
                 Sender sender = new Sender(Mut.socket);
                 Receiver receiver = new Receiver(Mut.socket);
                 
                 sender.start();
                 receiver.start();
+                
+                //Receiver999 receiver999 = new Receiver999();
+                //Receiver999 receiver999 = new Receiver999(socket999);
+                //receiver999.start();
             }
         } catch(Exception e) {
             e.printStackTrace();
