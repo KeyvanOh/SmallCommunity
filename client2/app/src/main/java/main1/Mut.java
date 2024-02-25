@@ -38,6 +38,9 @@ public class Mut {
     public static String postM = new String();
     public static String postingM = new String();
     
+    //public static double post01Y = 0;
+    public static double post01Y = 60.;
+    
     //public static String chatStack = new String();
     //public static String name = new String();
 }

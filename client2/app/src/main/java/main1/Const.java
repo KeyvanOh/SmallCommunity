@@ -10,6 +10,7 @@ public class Const {
     public static final Color BLACK = Color.rgb(0, 0, 0);
     public static final Color RED = Color.rgb(255, 0, 0);
     public static final Color YELLOW = Color.rgb(255, 255, 0);
+    public static final Color BLUE = Color.rgb(0, 0, 255);
     
     public static final String idTime = String.valueOf(System.currentTimeMillis());
     

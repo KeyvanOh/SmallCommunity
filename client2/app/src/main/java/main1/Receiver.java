@@ -57,7 +57,7 @@ public class Receiver extends Thread {
                 jsonGenerator.close();
                 */
                 
-                
+                //System.out.println("Receiver step 1");
                 //JsonFactory jsonFactory = new JsonFactory();
                 //JsonParser jsonParser = jsonFactory.createJsonParser(in);
                 jsonParser = jsonFactory.createJsonParser(in);
@@ -68,8 +68,10 @@ public class Receiver extends Thread {
                     } else if (jsonParser.currentToken() == JsonToken.END_OBJECT) {
                         jsonGenerator.writeEndObject();
                     };
+                    //System.out.println("Receiver step 1-2");
                     String fieldName = jsonParser.getCurrentName();
                     if (fieldName != null) {
+                        //System.out.println("Receiver step 1-3");
                         //System.out.println(fieldName);
                         switch (fieldName) {
                             /*
@@ -117,7 +119,7 @@ public class Receiver extends Thread {
                             }
                         };
                         
-                        
+                        //System.out.println("Receiver step 1-4");
                         
                         //System.out.println(fieldName);
                     } else {
@@ -130,6 +132,8 @@ public class Receiver extends Thread {
                 //jsonGenerator.flush();
                 jsonGenerator.close();
                 
+                
+                System.out.println("Receiver step 2");
                 
                 
                 

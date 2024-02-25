@@ -47,6 +47,16 @@ public class GUI extends Application {
             );
             jsonGenerator.writeStartObject();
             jsonGenerator.writeBooleanField("request", false);
+            //jsonGenerator.writeBooleanField("requestDelete", false);
+            jsonGenerator.writeEndObject();
+            jsonGenerator.close();
+            
+            jsonGenerator = jsonFactory.createGenerator(
+                new File("delete.json"), JsonEncoding.UTF8
+            );
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeBooleanField("delete", false);
+            jsonGenerator.writeStringField("postNumberDelete", "");
             jsonGenerator.writeEndObject();
             jsonGenerator.close();
         } catch(Exception e) {
@@ -172,6 +182,14 @@ public class GUI extends Application {
         post01.setFill(Const.WHITE);
         post01.setVisible(false);
         
+        //Text textDeleteRequest = new Text(width * 0.5 + 10., 60., "post01");
+        //Text textDeleteRequest = new Text(10., 60., "Request to delete this post");
+        //Text textDeleteRequest = new Text(10., height, "Request to delete this post");
+        Text textDeleteRequest = new Text(10., height - 7., "Request to delete this post");
+        textDeleteRequest.setFont(font);
+        textDeleteRequest.setFill(Const.BLUE);
+        textDeleteRequest.setVisible(false);
+        
         /*
         Text post02 = new Text(width * 0.5, 80., "post02");
         post02.setFont(font);
@@ -273,6 +291,7 @@ public class GUI extends Application {
                             rectangleServerIp.setOpacity(Const.A_SHADOW);
                             rectanglePort.setOpacity(Const.A_SHADOW);
                             textPosting.setText("Write whatevet to post here.");
+                            textDeleteRequest.setVisible(false);
                         };
                         break;
                     }
@@ -388,6 +407,8 @@ public class GUI extends Application {
                                 JsonFactory jsonFactory = new JsonFactory();
                                 JsonGenerator jsonGenerator;
                                 try {
+                                    
+                                    
                                     jsonGenerator = jsonFactory.createGenerator(
                                         new File("request.json"), JsonEncoding.UTF8
                                     );
@@ -395,6 +416,8 @@ public class GUI extends Application {
                                     jsonGenerator.writeBooleanField("request", true);
                                     jsonGenerator.writeEndObject();
                                     jsonGenerator.close();
+                                    
+                                    
                                     
                                     System.out.println("buttonClicked: " + Mut.buttonClicked);
                                     if (Mut.buttonClicked == 1) {
@@ -430,6 +453,8 @@ public class GUI extends Application {
                                         
                                         
                                     };
+                                    
+                                    
                                     
                                     
                                     
@@ -558,7 +583,7 @@ public class GUI extends Application {
                                 
                                 //List<String> postNumbers;
                                 Mut.postNumbers = new ArrayList<String>();
-                                
+                                Mut.post01 = "";
                                 while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                     if (jsonParser.currentToken() == JsonToken.START_OBJECT) {
                                         //jsonGenerator.writeStartObject();
@@ -648,19 +673,12 @@ public class GUI extends Application {
                                     Print.append("\n\n");
                                     Print.append(Mut.dateM);
                                     textPosting.setText(Print.getAndReset());
+                                    textDeleteRequest.setVisible(true);
                                 };
                             } catch(Exception err) {
                                 err.printStackTrace();
                             };
-                            
-                            
-                            
                         };
-                        
-                        
-                        
-                        
-                        
                     };
                 };
                 //writer.setColor(100, 100, Const.WHITE);
@@ -717,7 +735,8 @@ public class GUI extends Application {
                 
                 for (int i = 0; i < length; i++) {
                     //double scope = 66. + 20. * (double)i;
-                    double scope = 66. + 16. * (double)i;
+                    //double scope = 66. + 16. * (double)i;
+                    double scope = 66. + 16. * (double)i + Mut.post01Y - 60.;
                     //if (y < 66. + 20. * (double)i) {
                     if (y < scope) {
                         //System.out.println(Mut.postNumbers.get(length - 1 - i));
@@ -735,11 +754,67 @@ public class GUI extends Application {
         };
         post01.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnPost01);
         
+        EventHandler<ScrollEvent> eventHandlerScrollPost01 = new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent e) {
+                double wheel = e.getDeltaY();
+                System.out.println(wheel);
+                //Mut.textY += wheel;
+                Mut.post01Y += wheel;
+                //text.setY(Mut.textY);
+                post01.setY(Mut.post01Y);
+            }
+        };
+        post01.addEventHandler(ScrollEvent.SCROLL, eventHandlerScrollPost01);        
+        rectangleIndex.addEventHandler(ScrollEvent.SCROLL, eventHandlerScrollPost01);        
         
         
-        
-        
-        
+        EventHandler<MouseEvent> eventHandlerMouseOnDelete = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                String mouseEvent = String.valueOf(e.getEventType());
+                switch(mouseEvent) {
+                    case "MOUSE_ENTERED": {
+                        textDeleteRequest.setFill(Color.rgb(100, 100, 255));
+                        break;
+                    }
+                    case "MOUSE_EXITED": {
+                        textDeleteRequest.setFill(Const.BLUE);
+                        break;
+                    }
+                    case "MOUSE_CLICKED": {
+                        if (e.getButton() == MouseButton.PRIMARY) {
+                            
+                            try {
+                                
+                                
+                                JsonGenerator jsonGenerator = jsonFactory.createGenerator(
+                                    new File("delete.json"), JsonEncoding.UTF8
+                                );
+                                jsonGenerator.writeStartObject();
+                                jsonGenerator.writeBooleanField("delete", true);
+                                jsonGenerator.writeStringField("postNumberDelete", Mut.postNumberM);
+                                jsonGenerator.writeEndObject();
+                                jsonGenerator.close();
+                                
+                                //Sender999 sender999 = new Sender999(Mut.serverIp, Mut.postNumberM);
+                                //sender999.start();
+                                System.out.println("Sent delete from GUI.");
+                                
+                            } catch (Exception err) {
+                                err.printStackTrace();
+                            };
+                            
+                            
+                        };
+                        break;
+                    }
+                    default: {
+                    }
+                };
+            }
+        };
+        textDeleteRequest.addEventHandler(MouseEvent.ANY, eventHandlerMouseOnDelete);
         
         
         
@@ -762,6 +837,8 @@ public class GUI extends Application {
         root.getChildren().add(textPosting);
         
         root.getChildren().add(post01);
+        
+        root.getChildren().add(textDeleteRequest);
         /*
         root.getChildren().add(post02);
         root.getChildren().add(post03);
