@@ -10,4 +10,14 @@ public class Mut {
     public static Socket socket = null;
     
     public static boolean request = true;
+    
+    
+    public static String userIp = new String();
+    public static String date = new String();
+    public static String idTime = new String();
+    public static String posted = new String();
+    public static String postNumberTemp = new String();
+    
+    
+    public static int postNumber = 0;
 }
